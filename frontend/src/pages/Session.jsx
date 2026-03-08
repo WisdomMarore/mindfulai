@@ -113,7 +113,28 @@ export default function Session() {
         </div>
 
         {error && <div className="bg-red-50 border border-red-200 text-red-600 rounded-xl p-4 mb-6 text-sm">{error}</div>}
+        {/* TEMP TEST BUTTON - remove before submission */}
+<div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-6 flex justify-between items-center">
+  <p className="text-yellow-700 text-xs font-medium">🧪 Test Mode — Save a negative session instantly</p>
+  <button
+    onClick={async () => {
+      console.log('Test button clicked');
+      await sessionAPI.startSession({
+        emotion_detected: 'angry',
+        confidence: 0.92,
+        activity_title: 'Progressive Muscle Relaxation',
+        activity_category: 'movement',
+        completed: true,
+      });
+      alert('Test negative session saved!');
+    }}
+    className="bg-yellow-500 text-white text-xs px-4 py-2 rounded-xl hover:bg-yellow-400 transition"
+  >
+    Save Negative Session
+  </button>
+</div>
 
+        
         {/* Camera */}
         <div className="bg-white rounded-2xl shadow-md overflow-hidden mb-6">
           <video ref={videoRef} autoPlay muted className="w-full rounded-t-2xl" style={{ maxHeight: '340px', objectFit: 'cover' }} />

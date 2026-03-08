@@ -27,4 +27,9 @@ export const interventionAPI = {
   getRecommendations: (emotion) => api.get(`/interventions/?emotion=${emotion}`),
 };
 
+export const escalationAPI = {
+  getEscalation: () => api.get('/escalation/'),
+  acknowledge: (id) => api.post(`/escalation/${id}/acknowledge/`),
+};
+
 export default api;

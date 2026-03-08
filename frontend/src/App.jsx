@@ -3,6 +3,7 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Session from './pages/Session';
 import History from './pages/History';
+import Activities from './pages/Activities';
 
 function PrivateRoute({ children }) {
   const token = localStorage.getItem('access_token');
@@ -18,6 +19,7 @@ export default function App() {
         <Route path="/session" element={<PrivateRoute><Session /></PrivateRoute>} />
         <Route path="/history" element={<PrivateRoute><History /></PrivateRoute>} />
         <Route path="*" element={<Navigate to="/login" />} />
+        <Route path="/activities" element={<PrivateRoute><Activities /></PrivateRoute>} />
       </Routes>
     </BrowserRouter>
   );

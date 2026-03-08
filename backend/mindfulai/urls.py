@@ -10,4 +10,5 @@ urlpatterns = [
     path('api/sessions/', include('mindfulness_sessions.urls')),
     path('api/interventions/', include('interventions.urls')),
     path('api/community/', include('community.urls')),
+    path('api/escalation/', include('escalation.urls')),
 ]

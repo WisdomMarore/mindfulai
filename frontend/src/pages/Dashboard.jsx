@@ -1,47 +1,280 @@
 import { useEffect, useState } from 'react';
-import Navbar from '../components/Navbar';
-import MindfulCard from '../components/MindfulCard';
-import { interventionAPI } from '../api/client';
 import { useNavigate } from 'react-router-dom';
+import Navbar from '../components/Navbar';
+import { sessionAPI } from '../api/client';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, LineChart, Line } from 'recharts';
+import EscalationAlert from '../components/EscalationAlert';
+import { escalationAPI } from '../api/client';
 
-const activities = [
-  { id: 1, title: 'Box Breathing', description: 'Inhale 4s, hold 4s, exhale 4s, hold 4s. Calms anxiety fast.', duration: 5, category: 'breathing' },
-  { id: 2, title: 'Body Scan', description: 'Slowly bring awareness to each part of your body from head to toe.', duration: 10, category: 'meditation' },
-  { id: 3, title: 'Gratitude Reflection', description: 'Think of 3 things you are grateful for right now.', duration: 5, category: 'meditation' },
-  { id: 4, title: 'Progressive Muscle Relaxation', description: 'Tense and release each muscle group to release physical stress.', duration: 15, category: 'movement' },
-  { id: 5, title: '5-4-3-2-1 Grounding', description: 'Name 5 things you see, 4 you hear, 3 you can touch, 2 you smell, 1 you taste.', duration: 5, category: 'grounding' },
-];
+
+const emotionColors = {
+  happy: '#FBBF24', sad: '#60A5FA', angry: '#F87171',
+  fearful: '#34D399', disgusted: '#A78BFA', surprised: '#FB923C', neutral: '#9CA3AF',
+};
+
+const emotionEmoji = {
+  happy: '😊', sad: '😢', angry: '😠',
+  fearful: '😨', disgusted: '🤢', surprised: '😲', neutral: '😐',
+};
+
+const positivEmotions = ['happy', 'surprised'];
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const [sessions, setSessions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const user = JSON.parse(localStorage.getItem('user'));
+  const [escalation, setEscalation] = useState(null);
+  const [showAlert, setShowAlert] = useState(false);
+
+  useEffect(() => {
+    const fetchSessions = async () => {
+      try {
+        const res = await sessionAPI.getHistory();
+        setSessions(res.data);
+      } catch (err) {
+        console.error('Failed to fetch sessions:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchSessions();
+
+    const fetchEscalation = async () => {
+      try {
+        const res = await escalationAPI.getEscalation();
+        setEscalation(res.data);
+      if (res.data.tier >= 2) setShowAlert(true);
+     } catch (err) {
+        console.error('Escalation check failed:', err);
+  }
+};
+fetchEscalation();
+  }, []);
+
+  // Emotion frequency chart data
+  const emotionCounts = sessions.reduce((acc, s) => {
+    acc[s.emotion_detected] = (acc[s.emotion_detected] || 0) + 1;
+    return acc;
+  }, {});
+
+  const chartData = Object.entries(emotionCounts)
+    .map(([emotion, count]) => ({
+      emotion: emotion.charAt(0).toUpperCase() + emotion.slice(1),
+      count,
+      key: emotion,
+    }))
+    .sort((a, b) => b.count - a.count);
+
+  // Session trend — last 7 sessions as a line chart
+  const trendData = [...sessions]
+    .slice(0, 7)
+    .reverse()
+    .map((s, i) => ({
+      name: `S${i + 1}`,
+      confidence: Math.round(s.confidence * 100),
+      emotion: s.emotion_detected,
+    }));
+
+  const topEmotion = chartData[0];
+  const totalSessions = sessions.length;
+  const completedSessions = sessions.filter(s => s.completed).length;
+  const positiveCount = sessions.filter(s => positivEmotions.includes(s.emotion_detected)).length;
+  const wellbeingScore = totalSessions > 0 ? Math.round((positiveCount / totalSessions) * 100) : 0;
+  const recentSessions = sessions.slice(0, 3);
 
   return (
+    <>
     <div className="min-h-screen bg-gray-50">
       <Navbar />
-      <div className="max-w-5xl mx-auto px-6 py-10">
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-blue-900">Welcome back 👋</h2>
-          <p className="text-gray-500 mt-1">How are you feeling today? Start a session to find out.</p>
-        </div>
-        <div className="bg-blue-900 text-white rounded-2xl p-6 mb-10 flex justify-between items-center">
+      <div className="max-w-6xl mx-auto px-6 py-10">
+
+        {/* Header */}
+        <div className="flex justify-between items-start mb-8">
           <div>
-            <h3 className="text-lg font-semibold">Ready for your session?</h3>
-            <p className="text-blue-200 text-sm mt-1">We'll detect your emotion and suggest the best activity for you.</p>
+            <h2 className="text-2xl font-bold text-blue-900">
+              Welcome back, {user?.username} 👋
+            </h2>
+            <p className="text-gray-400 text-sm mt-1">
+              {new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+            </p>
           </div>
           <button
             onClick={() => navigate('/session')}
-            className="bg-white text-blue-900 font-semibold px-6 py-3 rounded-xl hover:bg-blue-100 transition"
+            className="bg-blue-900 text-white font-semibold px-6 py-3 rounded-xl hover:bg-blue-700 transition text-sm"
           >
-            Start Session
+            + New Session
           </button>
         </div>
-        <h3 className="text-lg font-semibold text-gray-700 mb-4">All Activities</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {activities.map((a) => (
-            <MindfulCard key={a.id} {...a} onStart={() => navigate('/session')} />
-          ))}
+
+        {/* TOP ROW — Most important KPIs top left as per video */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-8">
+
+          {/* Most important — top left */}
+          <div className="bg-blue-900 text-white rounded-2xl p-6 col-span-2 md:col-span-1">
+            <p className="text-blue-300 text-xs font-medium mb-2">WELLBEING SCORE</p>
+            <p className="text-5xl font-bold">{wellbeingScore}%</p>
+            <p className="text-blue-300 text-xs mt-2">
+              {wellbeingScore >= 50 ? '↑ Positive trend' : '↓ Could be better'}
+            </p>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-sm p-6">
+            <p className="text-gray-400 text-xs font-medium mb-2">TOTAL SESSIONS</p>
+            <p className="text-4xl font-bold text-blue-900">{totalSessions}</p>
+            <p className="text-gray-400 text-xs mt-2">All time</p>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-sm p-6">
+            <p className="text-gray-400 text-xs font-medium mb-2">COMPLETED</p>
+            <p className="text-4xl font-bold text-green-600">{completedSessions}</p>
+            <p className="text-gray-400 text-xs mt-2">
+              {totalSessions > 0 ? `${Math.round((completedSessions / totalSessions) * 100)}% completion rate` : 'No sessions yet'}
+            </p>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-sm p-6">
+            <p className="text-gray-400 text-xs font-medium mb-2">TOP EMOTION</p>
+            <p className="text-3xl font-bold text-blue-900">
+              {topEmotion ? `${emotionEmoji[topEmotion.key]}` : '—'}
+            </p>
+            <p className="text-gray-400 text-xs mt-2 capitalize">
+              {topEmotion ? `${topEmotion.emotion} (${topEmotion.count}x)` : 'No data yet'}
+            </p>
+          </div>
         </div>
+
+        {/* CHARTS ROW — grouped related metrics together as per video */}
+        {sessions.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+
+            {/* Emotion Frequency Bar Chart */}
+            <div className="bg-white rounded-2xl shadow-sm p-6">
+              <h3 className="text-sm font-semibold text-gray-600 mb-1">Emotion Frequency</h3>
+              <p className="text-xs text-gray-400 mb-5">How often each emotion was detected</p>
+              <ResponsiveContainer width="100%" height={200}>
+                <BarChart data={chartData} barSize={32}>
+                  <XAxis dataKey="emotion" tick={{ fontSize: 11 }} axisLine={false} tickLine={false} />
+                  <YAxis allowDecimals={false} tick={{ fontSize: 11 }} axisLine={false} tickLine={false} />
+                  <Tooltip
+                    contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 20px rgba(0,0,0,0.1)' }}
+                    formatter={(value) => [`${value} sessions`, 'Count']}
+                  />
+                  <Bar dataKey="count" radius={[6, 6, 0, 0]}>
+                    {chartData.map((entry) => (
+                      <Cell key={entry.key} fill={emotionColors[entry.key] || '#60A5FA'} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Confidence Trend Line Chart */}
+            <div className="bg-white rounded-2xl shadow-sm p-6">
+              <h3 className="text-sm font-semibold text-gray-600 mb-1">Detection Confidence Trend</h3>
+              <p className="text-xs text-gray-400 mb-5">Last 7 sessions — how confident the AI was</p>
+              <ResponsiveContainer width="100%" height={200}>
+                <LineChart data={trendData}>
+                  <XAxis dataKey="name" tick={{ fontSize: 11 }} axisLine={false} tickLine={false} />
+                  <YAxis domain={[0, 100]} tick={{ fontSize: 11 }} axisLine={false} tickLine={false} unit="%" />
+                  <Tooltip
+                    contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 20px rgba(0,0,0,0.1)' }}
+                    formatter={(value) => [`${value}%`, 'Confidence']}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="confidence"
+                    stroke="#1E3A5F"
+                    strokeWidth={2.5}
+                    dot={{ fill: '#1E3A5F', r: 4 }}
+                    activeDot={{ r: 6 }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        )}
+
+        {/* RECENT SESSIONS + START BANNER — side by side */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+
+          {/* Recent Sessions */}
+          <div className="md:col-span-2 bg-white rounded-2xl shadow-sm p-6">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-sm font-semibold text-gray-600">Recent Sessions</h3>
+              <button
+                onClick={() => navigate('/history')}
+                className="text-xs text-blue-600 hover:underline"
+              >
+                View all
+              </button>
+            </div>
+            {recentSessions.length === 0 ? (
+              <div className="text-center py-8 text-gray-400">
+                <p className="text-3xl mb-2">🧘</p>
+                <p className="text-sm">No sessions yet. Start your first one!</p>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-3">
+                {recentSessions.map((s) => (
+                  <div key={s.id} className="flex justify-between items-center py-3 border-b border-gray-50 last:border-0">
+                    <div className="flex items-center gap-3">
+                      <span className="text-2xl">{emotionEmoji[s.emotion_detected] || '😐'}</span>
+                      <div>
+                        <p className="text-sm font-medium text-gray-700">{s.activity_title}</p>
+                        <p className="text-xs text-gray-400 capitalize">{s.emotion_detected} • {Math.round(s.confidence * 100)}% confidence</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-xs text-gray-400">{new Date(s.started_at).toLocaleDateString()}</p>
+                      <span className={`text-xs px-2 py-0.5 rounded-full ${s.completed ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400'}`}>
+                        {s.completed ? 'Done' : 'Incomplete'}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Quick Actions */}
+          <div className="flex flex-col gap-4">
+            <div className="bg-blue-900 text-white rounded-2xl p-6 flex flex-col gap-3">
+              <h3 className="font-semibold">Start a Session</h3>
+              <p className="text-blue-200 text-xs">Detect your emotion and get a personalised activity.</p>
+              <button
+                onClick={() => navigate('/session')}
+                className="bg-white text-blue-900 font-semibold py-2 rounded-xl hover:bg-blue-100 transition text-sm mt-2"
+              >
+                Begin Now →
+              </button>
+            </div>
+            <div className="bg-white rounded-2xl shadow-sm p-6 flex flex-col gap-3">
+              <h3 className="font-semibold text-gray-700">View History</h3>
+              <p className="text-gray-400 text-xs">See all your past sessions and emotions.</p>
+              <button
+                onClick={() => navigate('/history')}
+                className="border border-blue-900 text-blue-900 font-semibold py-2 rounded-xl hover:bg-blue-50 transition text-sm mt-2"
+              >
+                View All →
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* ACTIVITIES — at the bottom, least critical */}
+        
+
       </div>
-    </div>
+   </div>
+
+    {showAlert && escalation && (
+      <EscalationAlert
+        tier={escalation.tier}
+        message={escalation.message}
+        onDismiss={() => setShowAlert(false)}
+      />
+    )}
+    </>
   );
 }

@@ -19,6 +19,7 @@ export default function Navbar() {
         <Link to="/dashboard" className="hover:text-blue-300 transition">Dashboard</Link>
         <Link to="/session" className="hover:text-blue-300 transition">New Session</Link>
         <Link to="/history" className="hover:text-blue-300 transition">History</Link>
+        <Link to="/activities" className="hover:text-blue-300 transition">Activities</Link>
         <button onClick={handleLogout} className="hover:text-red-300 transition">Logout</button>
       </div>
     </nav>
