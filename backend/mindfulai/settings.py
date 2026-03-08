@@ -98,3 +98,10 @@ CELERY_BROKER_URL = os.getenv('REDIS_URL', 'redis://localhost:6379')
 CELERY_RESULT_BACKEND = os.getenv('REDIS_URL', 'redis://localhost:6379')
 
 AUTH_USER_MODEL = 'users.User'
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=24),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+}

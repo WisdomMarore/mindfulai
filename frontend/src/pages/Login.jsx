@@ -1,33 +1,33 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authAPI } from '../api/client';
-import useAuthStore from '../store/authStore';
 
 export default function Login() {
   const [form, setForm] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login } = useAuthStore();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
-  setError('');
-  try {
-    const res = await authAPI.login({
-      username: form.username,
-      password: form.password,
-    });
-    login({ username: form.username }, res.data.access);
-    navigate('/dashboard');
-  } catch (err) {
-    console.error('Login error:', err.response?.data);
-    setError(err.response?.data?.detail || 'Invalid username or password');
-  } finally {
-    setLoading(false);
-  }
-};
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    try {
+      const res = await authAPI.login({
+        username: form.username,
+        password: form.password,
+      });
+      const token = res.data.access;
+      localStorage.setItem('access_token', token);
+      localStorage.setItem('user', JSON.stringify({ username: form.username }));
+      console.log('Token stored:', localStorage.getItem('access_token'));
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.response?.data?.detail || 'Invalid username or password');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-950 to-blue-800 flex items-center justify-center">

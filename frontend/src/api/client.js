@@ -17,7 +17,7 @@ export const authAPI = {
 };
 
 export const sessionAPI = {
-  startSession: () => api.post('/sessions/'),
+  startSession: (data) => api.post('/sessions/', JSON.stringify(data)),
   logEmotion: (id, data) => api.post(`/sessions/${id}/emotion/`, data),
   endSession: (id) => api.patch(`/sessions/${id}/end/`),
   getHistory: () => api.get('/sessions/history/'),
