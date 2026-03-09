@@ -5,13 +5,13 @@ import { sessionAPI } from '../api/client';
 import ActivityModal from '../components/ActivityModal';
 
 const emotionActivities = {
-  happy: { title: 'Loving Kindness Meditation', category: 'meditation', desc: 'Channel your positive energy into compassion for others.', color: 'bg-yellow-50 border-yellow-300' },
-  sad: { title: 'Gratitude Reflection', category: 'meditation', desc: 'Gently shift focus to things that bring comfort and meaning.', color: 'bg-blue-50 border-blue-300' },
-  angry: { title: 'Progressive Muscle Relaxation', category: 'movement', desc: 'Release tension by tensing and relaxing each muscle group.', color: 'bg-red-50 border-red-300' },
-  fearful: { title: 'Box Breathing', category: 'breathing', desc: 'Regulate your nervous system with controlled breathing.', color: 'bg-green-50 border-green-300' },
-  disgusted: { title: 'Body Scan Meditation', category: 'meditation', desc: 'Reconnect with your body through gentle awareness.', color: 'bg-purple-50 border-purple-300' },
-  surprised: { title: '5-4-3-2-1 Grounding', category: 'grounding', desc: 'Ground yourself by engaging all five senses.', color: 'bg-orange-50 border-orange-300' },
-  neutral: { title: 'Mindful Breathing', category: 'breathing', desc: 'A simple breath awareness practice to centre yourself.', color: 'bg-gray-50 border-gray-300' },
+  happy: { title: 'Loving Kindness Meditation', category: 'meditation', desc: 'Channel your positive energy into compassion for others.', color: 'border-yellow-400 border-opacity-40' },
+  sad: { title: 'Gratitude Reflection', category: 'meditation', desc: 'Gently shift focus to things that bring comfort and meaning.', color: 'border-blue-400 border-opacity-40' },
+  angry: { title: 'Progressive Muscle Relaxation', category: 'movement', desc: 'Release tension by tensing and relaxing each muscle group.', color: 'border-red-400 border-opacity-40' },
+  fearful: { title: 'Box Breathing', category: 'breathing', desc: 'Regulate your nervous system with controlled breathing.', color: 'border-green-400 border-opacity-40' },
+  disgusted: { title: 'Body Scan Meditation', category: 'meditation', desc: 'Reconnect with your body through gentle awareness.', color: 'border-purple-400 border-opacity-40' },
+  surprised: { title: '5-4-3-2-1 Grounding', category: 'grounding', desc: 'Ground yourself by engaging all five senses.', color: 'border-orange-400 border-opacity-40' },
+  neutral: { title: 'Mindful Breathing', category: 'breathing', desc: 'A simple breath awareness practice to centre yourself.', color: 'border-gray-400 border-opacity-40' },
 };
 
 export default function Session() {
@@ -38,7 +38,6 @@ export default function Session() {
       setCurrentEmotion(emotion);
       const activity = emotionActivities[emotion.type] || emotionActivities.neutral;
       setCurrentActivity(activity);
-
       if (!continuousMode) {
         clearInterval(intervalRef.current);
         intervalRef.current = null;
@@ -65,14 +64,13 @@ export default function Session() {
     if (!currentEmotion || !currentActivity) return;
     setSaving(true);
     try {
-      const sessionData = {
+      await sessionAPI.startSession({
         emotion_detected: currentEmotion.type,
         confidence: currentEmotion.confidence,
         activity_title: currentActivity.title,
         activity_category: currentActivity.category,
         completed: true,
-      };
-      await sessionAPI.startSession(JSON.stringify(sessionData));
+      });
       setSaved(true);
     } catch (err) {
       console.error('Failed to save session:', err.response?.data);
@@ -82,79 +80,98 @@ export default function Session() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-blue-950">
       <Navbar />
       <div className="max-w-3xl mx-auto px-6 py-10">
-        <h2 className="text-2xl font-bold text-blue-900 mb-2">Live Session</h2>
-        <p className="text-gray-500 mb-6 text-sm">Look into your camera. We'll detect your emotion and recommend the right activity.</p>
+
+        {/* Header */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold text-white">Live Session</h2>
+          <p className="text-blue-300 text-sm mt-1">Look into your camera. We'll detect your emotion and recommend the right activity.</p>
+        </div>
 
         {/* Detection Mode Toggle */}
-        <div className="bg-white rounded-2xl shadow-sm p-4 mb-6 flex items-center justify-between">
+        <div className="bg-white bg-opacity-10 border border-white border-opacity-10 rounded-2xl p-4 mb-6 flex items-center justify-between">
           <div>
-            <p className="text-sm font-medium text-gray-700">Detection Mode</p>
-            <p className="text-xs text-gray-400 mt-1">
+            <p className="text-sm font-medium text-white">Detection Mode</p>
+            <p className="text-xs text-blue-300 mt-1">
               {continuousMode ? 'Continuous — updates emotion in real time' : 'Single — stops after first detection'}
             </p>
           </div>
           <div className="flex gap-2">
             <button
               onClick={() => setContinuousMode(false)}
-              className={`px-4 py-2 rounded-xl text-sm font-medium transition ${!continuousMode ? 'bg-blue-900 text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
+              className={`px-4 py-2 rounded-xl text-sm font-medium transition ${!continuousMode ? 'bg-blue-500 text-white' : 'bg-white bg-opacity-10 text-blue-300 hover:bg-opacity-20'}`}
             >
               Single
             </button>
             <button
               onClick={() => setContinuousMode(true)}
-              className={`px-4 py-2 rounded-xl text-sm font-medium transition ${continuousMode ? 'bg-blue-900 text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
+              className={`px-4 py-2 rounded-xl text-sm font-medium transition ${continuousMode ? 'bg-blue-500 text-white' : 'bg-white bg-opacity-10 text-blue-300 hover:bg-opacity-20'}`}
             >
               Continuous
             </button>
           </div>
         </div>
 
-        {error && <div className="bg-red-50 border border-red-200 text-red-600 rounded-xl p-4 mb-6 text-sm">{error}</div>}
-        {/* TEMP TEST BUTTON - remove before submission */}
-<div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-6 flex justify-between items-center">
-  <p className="text-yellow-700 text-xs font-medium">🧪 Test Mode — Save a negative session instantly</p>
-  <button
-    onClick={async () => {
-      console.log('Test button clicked');
-      await sessionAPI.startSession({
-        emotion_detected: 'angry',
-        confidence: 0.92,
-        activity_title: 'Progressive Muscle Relaxation',
-        activity_category: 'movement',
-        completed: true,
-      });
-      alert('Test negative session saved!');
-    }}
-    className="bg-yellow-500 text-white text-xs px-4 py-2 rounded-xl hover:bg-yellow-400 transition"
-  >
-    Save Negative Session
-  </button>
-</div>
+        {error && (
+          <div className="bg-red-400 bg-opacity-20 border border-red-400 border-opacity-30 text-red-300 rounded-xl p-4 mb-6 text-sm">
+            {error}
+          </div>
+        )}
 
-        
+        {/* Test Button */}
+        <div className="bg-yellow-400 bg-opacity-10 border border-yellow-400 border-opacity-20 rounded-xl p-4 mb-6 flex justify-between items-center">
+          <p className="text-yellow-300 text-xs font-medium">🧪 Test Mode — Save a negative session instantly</p>
+          <button
+            onClick={async () => {
+              try {
+                await sessionAPI.startSession({
+                  emotion_detected: 'angry',
+                  confidence: 0.92,
+                  activity_title: 'Progressive Muscle Relaxation',
+                  activity_category: 'movement',
+                  completed: true,
+                });
+                alert('Test negative session saved!');
+              } catch (err) {
+                console.error('Failed:', err.response?.data);
+              }
+            }}
+            className="bg-yellow-500 bg-opacity-30 text-yellow-300 text-xs px-4 py-2 rounded-xl hover:bg-opacity-50 transition border border-yellow-400 border-opacity-30"
+          >
+            Save Negative Session
+          </button>
+        </div>
+
         {/* Camera */}
-        <div className="bg-white rounded-2xl shadow-md overflow-hidden mb-6">
-          <video ref={videoRef} autoPlay muted className="w-full rounded-t-2xl" style={{ maxHeight: '340px', objectFit: 'cover' }} />
+        <div className="bg-white bg-opacity-10 border border-white border-opacity-10 rounded-2xl overflow-hidden mb-6">
+          <video ref={videoRef} autoPlay muted className="w-full" style={{ maxHeight: '340px', objectFit: 'cover' }} />
           <div className="p-4 flex justify-between items-center">
             <div>
-              {!modelsLoaded && <p className="text-sm text-gray-400">⏳ Loading emotion models...</p>}
-              {modelsLoaded && !detecting && !currentEmotion && <p className="text-sm text-gray-400">✅ Models ready. Press Start to begin.</p>}
-              {detecting && !currentEmotion && <p className="text-sm text-blue-500 animate-pulse">🔍 Analysing your expression...</p>}
-              {detecting && currentEmotion && continuousMode && <p className="text-sm text-blue-500 animate-pulse">🔄 Continuously detecting...</p>}
-              {currentEmotion && !detecting && <p className="text-sm text-green-600 font-medium">😊 Detected: <span className="capitalize">{currentEmotion.type}</span> ({Math.round(currentEmotion.confidence * 100)}%)</p>}
-              {currentEmotion && detecting && continuousMode && <p className="text-sm text-green-600 font-medium">😊 Current: <span className="capitalize">{currentEmotion.type}</span> ({Math.round(currentEmotion.confidence * 100)}%)</p>}
+              {!modelsLoaded && <p className="text-sm text-blue-300">⏳ Loading emotion models...</p>}
+              {modelsLoaded && !detecting && !currentEmotion && <p className="text-sm text-blue-300">✅ Models ready. Press Start to begin.</p>}
+              {detecting && !currentEmotion && <p className="text-sm text-blue-300 animate-pulse">🔍 Analysing your expression...</p>}
+              {detecting && currentEmotion && continuousMode && <p className="text-sm text-blue-300 animate-pulse">🔄 Continuously detecting...</p>}
+              {currentEmotion && !detecting && (
+                <p className="text-sm text-green-400 font-medium">
+                  😊 Detected: <span className="capitalize">{currentEmotion.type}</span> ({Math.round(currentEmotion.confidence * 100)}%)
+                </p>
+              )}
+              {currentEmotion && detecting && continuousMode && (
+                <p className="text-sm text-green-400 font-medium">
+                  😊 Current: <span className="capitalize">{currentEmotion.type}</span> ({Math.round(currentEmotion.confidence * 100)}%)
+                </p>
+              )}
             </div>
             <div className="flex gap-2">
               {modelsLoaded && !detecting && (
-                <button onClick={handleStart} className="bg-blue-900 text-white px-5 py-2 rounded-xl text-sm hover:bg-blue-700 transition">
+                <button onClick={handleStart} className="bg-blue-500 text-white px-5 py-2 rounded-xl text-sm hover:bg-blue-400 transition">
                   Start
                 </button>
               )}
               {detecting && (
-                <button onClick={handleStop} className="bg-red-500 text-white px-5 py-2 rounded-xl text-sm hover:bg-red-400 transition">
+                <button onClick={handleStop} className="bg-red-500 bg-opacity-50 text-red-200 px-5 py-2 rounded-xl text-sm hover:bg-opacity-70 transition">
                   Stop
                 </button>
               )}
@@ -164,14 +181,14 @@ export default function Session() {
 
         {/* Recommendation */}
         {currentActivity && (
-          <div className={`border-2 rounded-2xl p-6 ${currentActivity.color}`}>
-            <h3 className="text-lg font-bold text-gray-800 mb-2">Recommended for you</h3>
-            <h4 className="text-xl font-semibold text-blue-900">{currentActivity.title}</h4>
-            <p className="text-gray-600 mt-2">{currentActivity.desc}</p>
-            <div className="flex gap-3 mt-4">
+          <div className={`bg-white bg-opacity-10 border-2 rounded-2xl p-6 ${currentActivity.color}`}>
+            <p className="text-xs text-blue-300 font-medium mb-1">RECOMMENDED FOR YOU</p>
+            <h4 className="text-xl font-semibold text-white mb-2">{currentActivity.title}</h4>
+            <p className="text-blue-200 text-sm">{currentActivity.desc}</p>
+            <div className="flex gap-3 mt-5">
               <button
                 onClick={() => setShowActivity(true)}
-                className="bg-blue-900 text-white px-6 py-2 rounded-xl text-sm hover:bg-blue-700 transition"
+                className="bg-blue-500 text-white px-6 py-2 rounded-xl text-sm hover:bg-blue-400 transition"
               >
                 Begin Activity
               </button>
@@ -179,16 +196,17 @@ export default function Session() {
                 <button
                   onClick={handleSave}
                   disabled={saving}
-                  className="bg-white border border-blue-900 text-blue-900 px-6 py-2 rounded-xl text-sm hover:bg-blue-50 transition disabled:opacity-50"
+                  className="bg-white bg-opacity-10 border border-white border-opacity-20 text-white px-6 py-2 rounded-xl text-sm hover:bg-opacity-20 transition disabled:opacity-50"
                 >
                   {saving ? 'Saving...' : 'Save Session'}
                 </button>
               ) : (
-                <span className="text-green-600 text-sm font-medium self-center">✅ Session saved!</span>
+                <span className="text-green-400 text-sm font-medium self-center">✅ Session saved!</span>
               )}
             </div>
           </div>
         )}
+
       </div>
 
       {showActivity && currentActivity && (

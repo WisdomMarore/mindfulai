@@ -12,8 +12,8 @@ export default function Navbar() {
 
   return (
     <nav className="bg-blue-900 text-white px-6 py-4 flex justify-between items-center shadow-lg">
-      <Link to="/dashboard" className="text-xl font-bold tracking-wide">
-        🧘 MindfulAI
+      <Link to="/dashboard" className="flex items-center">
+       <img src="/mindfulai-logo.svg" alt="MindfulAI" className="h-8" />
       </Link>
       <div className="flex gap-6 text-sm">
         <Link to="/dashboard" className="hover:text-blue-300 transition">Dashboard</Link>

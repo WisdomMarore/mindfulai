@@ -52,7 +52,11 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-950 to-blue-800 flex items-center justify-center">
       <div className="bg-white rounded-3xl shadow-2xl p-10 w-full max-w-md">
-        <h1 className="text-3xl font-bold text-blue-900 mb-2 text-center">🧘 MindfulAI</h1>
+        <div className="flex justify-center mb-4">
+        <div className="bg-blue-900 px-6 py-3 rounded-2xl">
+         <img src="/mindfulai-logo.svg" alt="MindfulAI" className="h-12" />
+        </div>
+      </div>
         <p className="text-center text-gray-400 mb-6 text-sm">Your personalised mindfulness companion</p>
 
         {/* Toggle */}
