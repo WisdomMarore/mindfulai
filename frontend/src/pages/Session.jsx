@@ -24,6 +24,8 @@ export default function Session() {
   const [showActivity, setShowActivity] = useState(false);
   const [continuousMode, setContinuousMode] = useState(false);
   const intervalRef = useRef(null);
+  const [recommendationMethod, setRecommendationMethod] = useState(null);
+  const [sessionsUntilML, setSessionsUntilML] = useState(null);
 
   useEffect(() => {
     startCamera();
@@ -34,17 +36,34 @@ export default function Session() {
   }, []);
 
   useEffect(() => {
-    if (emotion) {
-      setCurrentEmotion(emotion);
-      const activity = emotionActivities[emotion.type] || emotionActivities.neutral;
-      setCurrentActivity(activity);
-      if (!continuousMode) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-        setDetecting(false);
-      }
+  if (emotion) {
+    setCurrentEmotion(emotion);
+    if (!continuousMode) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+      setDetecting(false);
     }
-  }, [emotion]);
+    fetchRecommendation(emotion.type);
+  }
+}, [emotion]);
+
+const fetchRecommendation = async (emotionType) => {
+  try {
+    const res = await sessionAPI.getRecommendation(emotionType);
+    setCurrentActivity({
+      title: res.data.activity_title,
+      category: res.data.activity_category,
+      desc: emotionActivities[emotionType]?.desc || 'A mindfulness activity recommended for you.',
+      color: emotionActivities[emotionType]?.color || 'border-blue-400 border-opacity-40',
+    });
+    setRecommendationMethod(res.data.method);
+    setSessionsUntilML(res.data.sessions_until_ml);
+  } catch (err) {
+    console.error('Recommendation failed:', err);
+    const activity = emotionActivities[emotionType] || emotionActivities.neutral;
+    setCurrentActivity(activity);
+  }
+};
 
   const handleStart = () => {
     setDetecting(true);
@@ -182,7 +201,18 @@ export default function Session() {
         {/* Recommendation */}
         {currentActivity && (
           <div className={`bg-white bg-opacity-10 border-2 rounded-2xl p-6 ${currentActivity.color}`}>
-            <p className="text-xs text-blue-300 font-medium mb-1">RECOMMENDED FOR YOU</p>
+            <div className="flex justify-between items-center mb-1">
+  <p className="text-xs text-blue-300 font-medium">RECOMMENDED FOR YOU</p>
+  {recommendationMethod && (
+    <span className={`text-xs px-2 py-0.5 rounded-full border ${
+      recommendationMethod === 'ml'
+        ? 'bg-purple-400 bg-opacity-20 text-purple-300 border-purple-400 border-opacity-30'
+        : 'bg-blue-400 bg-opacity-20 text-blue-300 border-blue-400 border-opacity-30'
+    }`}>
+      {recommendationMethod === 'ml' ? '🤖 ML Powered' : `📊 Rule Based · ${sessionsUntilML} sessions until ML`}
+    </span>
+  )}
+</div>
             <h4 className="text-xl font-semibold text-white mb-2">{currentActivity.title}</h4>
             <p className="text-blue-200 text-sm">{currentActivity.desc}</p>
             <div className="flex gap-3 mt-5">

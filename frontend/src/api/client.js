@@ -17,10 +17,9 @@ export const authAPI = {
 };
 
 export const sessionAPI = {
-  startSession: (data) => api.post('/sessions/', JSON.stringify(data)),
-  logEmotion: (id, data) => api.post(`/sessions/${id}/emotion/`, data),
-  endSession: (id) => api.patch(`/sessions/${id}/end/`),
+  startSession: (data) => api.post('/sessions/', data),
   getHistory: () => api.get('/sessions/history/'),
+  getRecommendation: (emotion) => api.get(`/sessions/recommend/?emotion=${emotion}`),
 };
 
 export const interventionAPI = {
