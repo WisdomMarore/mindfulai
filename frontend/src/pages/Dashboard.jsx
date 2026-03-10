@@ -5,6 +5,7 @@ import { sessionAPI } from '../api/client';
 import { escalationAPI } from '../api/client';
 import EscalationAlert from '../components/EscalationAlert';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, LineChart, Line } from 'recharts';
+import Footer from '../components/Footer';
 
 const emotionColors = {
   happy: '#FBBF24', sad: '#60A5FA', angry: '#F87171',
@@ -82,7 +83,7 @@ export default function Dashboard() {
 
   return (
     <>
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-blue-950">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-blue-950 flex flex-col">
       <Navbar />
       <div className="max-w-6xl mx-auto px-6 py-10">
 
@@ -248,6 +249,7 @@ export default function Dashboard() {
         onDismiss={() => setShowAlert(false)}
       />
     )}
+    <Footer/>
     </>
   );
 }

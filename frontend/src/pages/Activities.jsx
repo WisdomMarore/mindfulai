@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 const activities = [
   { id: 1, title: 'Box Breathing', description: 'Inhale 4s, hold 4s, exhale 4s. Calms anxiety fast.', duration: 5, category: 'breathing' },
@@ -35,7 +36,7 @@ export default function Activities() {
   const filtered = activities.filter(a => filter === 'all' || a.category === filter);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-blue-950">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-blue-950 flex flex-col">
       <Navbar />
       <div className="max-w-5xl mx-auto px-6 py-10">
 
@@ -91,6 +92,7 @@ export default function Activities() {
         </div>
 
       </div>
+      <Footer />
     </div>
   );
 }

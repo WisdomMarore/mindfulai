@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import { communityAPI } from '../api/client';
+import Footer from '../components/Footer';
+
 
 const emotionEmoji = {
   happy: '😊', sad: '😢', angry: '😠',
@@ -82,8 +84,9 @@ export default function Community() {
 
   const emotions = ['neutral', 'happy', 'sad', 'angry', 'fearful', 'disgusted', 'surprised'];
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-blue-950">
+ return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-blue-950 flex flex-col">
+
       <Navbar />
       <div className="max-w-3xl mx-auto px-6 py-10">
 
@@ -233,6 +236,7 @@ export default function Community() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

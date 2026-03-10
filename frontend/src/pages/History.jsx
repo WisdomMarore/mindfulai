@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import { sessionAPI } from '../api/client';
+import Footer from '../components/Footer';
 
 const emotionEmoji = {
   happy: '😊', sad: '😢', angry: '😠',
@@ -56,7 +57,7 @@ export default function History() {
     : 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-blue-950">
+        <div className="min-h-screen bg-gradient-to-br from-slate-900 to-blue-950 flex flex-col">
       <Navbar />
       <div className="max-w-4xl mx-auto px-6 py-10">
 
@@ -159,6 +160,7 @@ export default function History() {
         )}
 
       </div>
+      <Footer />
     </div>
   );
 }

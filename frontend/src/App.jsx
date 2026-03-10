@@ -6,6 +6,7 @@ import History from './pages/History';
 import Activities from './pages/Activities';
 import Community from './pages/Community';
 import AdminDashboard from './pages/AdminDashboard';
+import Landing from './pages/Landing';
 
 function PrivateRoute({ children }) {
   const token = localStorage.getItem('access_token');
@@ -16,6 +17,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
         <Route path="/session" element={<PrivateRoute><Session /></PrivateRoute>} />

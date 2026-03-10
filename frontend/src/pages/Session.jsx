@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar';
 import { useEmotionDetection } from '../hooks/useEmotionDetection';
 import { sessionAPI } from '../api/client';
 import ActivityModal from '../components/ActivityModal';
+import Footer from '../components/Footer';
 
 const emotionActivities = {
   happy: { title: 'Loving Kindness Meditation', category: 'meditation', desc: 'Channel your positive energy into compassion for others.', color: 'border-yellow-400 border-opacity-40' },
@@ -99,7 +100,7 @@ const fetchRecommendation = async (emotionType) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-blue-950">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-blue-950 flex flex-col">
       <Navbar />
       <div className="max-w-3xl mx-auto px-6 py-10">
 
@@ -245,6 +246,9 @@ const fetchRecommendation = async (emotionType) => {
           onClose={() => setShowActivity(false)}
         />
       )}
+        <Footer/>
     </div>
+    
   );
+  
 }
