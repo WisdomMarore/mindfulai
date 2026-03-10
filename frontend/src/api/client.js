@@ -32,4 +32,11 @@ export const escalationAPI = {
   acknowledge: (id) => api.post(`/escalation/${id}/acknowledge/`),
 };
 
+export const communityAPI = {
+  getPosts: () => api.get('/community/'),
+  createPost: (data) => api.post('/community/', data),
+  replyToPost: (id, data) => api.post(`/community/${id}/reply/`, data),
+  deletePost: (id) => api.delete(`/community/${id}/delete/`),
+};
+
 export default api;
