@@ -38,4 +38,11 @@ export const communityAPI = {
   deletePost: (id) => api.delete(`/community/${id}/delete/`),
 };
 
+export const adminAPI = {
+  getStats: () => api.get('/users/admin/stats/'),
+  getEmotionTrends: () => api.get('/users/admin/emotions/'),
+  getEscalations: () => api.get('/users/admin/escalations/'),
+  acknowledgeEscalation: (id) => api.post(`/users/admin/escalations/${id}/acknowledge/`),
+};
+
 export default api;
