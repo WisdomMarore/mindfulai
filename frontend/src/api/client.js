@@ -45,4 +45,9 @@ export const adminAPI = {
   acknowledgeEscalation: (id) => api.post(`/users/admin/escalations/${id}/acknowledge/`),
 };
 
+export const privacyAPI = {
+  downloadData: () => api.get('/users/privacy/download/'),
+  deleteAccount: () => api.delete('/users/privacy/delete/'),
+};
+
 export default api;

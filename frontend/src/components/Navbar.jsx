@@ -22,6 +22,7 @@ export default function Navbar() {
         <Link to="/history" className="hover:text-blue-300 transition">History</Link>
         <Link to="/community" className="hover:text-blue-300 transition">Community</Link>
         <Link to="/admin-dashboard" className="hover:text-blue-300 transition">Admin</Link>
+        <Link to="/privacy" className="hover:text-blue-300 transition">Privacy</Link>
         <button onClick={handleLogout} className="hover:text-red-300 transition">Logout</button>
       </div>
     </nav>

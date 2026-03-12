@@ -140,30 +140,6 @@ const fetchRecommendation = async (emotionType) => {
           </div>
         )}
 
-        {/* Test Button */}
-        <div className="bg-yellow-400 bg-opacity-10 border border-yellow-400 border-opacity-20 rounded-xl p-4 mb-6 flex justify-between items-center">
-          <p className="text-yellow-300 text-xs font-medium">🧪 Test Mode — Save a negative session instantly</p>
-          <button
-            onClick={async () => {
-              try {
-                await sessionAPI.startSession({
-                  emotion_detected: 'angry',
-                  confidence: 0.92,
-                  activity_title: 'Progressive Muscle Relaxation',
-                  activity_category: 'movement',
-                  completed: true,
-                });
-                alert('Test negative session saved!');
-              } catch (err) {
-                console.error('Failed:', err.response?.data);
-              }
-            }}
-            className="bg-yellow-500 bg-opacity-30 text-yellow-300 text-xs px-4 py-2 rounded-xl hover:bg-opacity-50 transition border border-yellow-400 border-opacity-30"
-          >
-            Save Negative Session
-          </button>
-        </div>
-
         {/* Camera */}
         <div className="bg-white bg-opacity-10 border border-white border-opacity-10 rounded-2xl overflow-hidden mb-6">
           <video ref={videoRef} autoPlay muted className="w-full" style={{ maxHeight: '340px', objectFit: 'cover' }} />
