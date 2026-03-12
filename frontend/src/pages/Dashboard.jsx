@@ -143,8 +143,8 @@ export default function Dashboard() {
             <div className="bg-white bg-opacity-10 border border-white border-opacity-10 rounded-2xl p-6">
               <h3 className="text-sm font-semibold text-white mb-1">Emotion Frequency</h3>
               <p className="text-xs text-blue-300 mb-5">How often each emotion was detected</p>
-              <ResponsiveContainer width="100%" height={200}>
-                <BarChart data={chartData} barSize={32}>
+             <ResponsiveContainer width="100%" height={180} minWidth={0}>
+               <BarChart data={chartData} barSize={24}>
                   <XAxis dataKey="emotion" tick={{ fontSize: 11, fill: '#93C5FD' }} axisLine={false} tickLine={false} />
                   <YAxis allowDecimals={false} tick={{ fontSize: 11, fill: '#93C5FD' }} axisLine={false} tickLine={false} />
                   <Tooltip
@@ -163,7 +163,7 @@ export default function Dashboard() {
             <div className="bg-white bg-opacity-10 border border-white border-opacity-10 rounded-2xl p-6">
               <h3 className="text-sm font-semibold text-white mb-1">Confidence Trend</h3>
               <p className="text-xs text-blue-300 mb-5">Last 7 sessions</p>
-              <ResponsiveContainer width="100%" height={200}>
+              <ResponsiveContainer width="100%" height={180} minWidth={0}>
                 <LineChart data={trendData}>
                   <XAxis dataKey="name" tick={{ fontSize: 11, fill: '#93C5FD' }} axisLine={false} tickLine={false} />
                   <YAxis domain={[0, 100]} tick={{ fontSize: 11, fill: '#93C5FD' }} axisLine={false} tickLine={false} unit="%" />

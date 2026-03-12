@@ -142,7 +142,7 @@ const fetchRecommendation = async (emotionType) => {
 
         {/* Camera */}
         <div className="bg-white bg-opacity-10 border border-white border-opacity-10 rounded-2xl overflow-hidden mb-6">
-          <video ref={videoRef} autoPlay muted className="w-full" style={{ maxHeight: '340px', objectFit: 'cover' }} />
+          <video ref={videoRef} autoPlay muted className="w-full" style={{ maxHeight: '280px', objectFit: 'cover', minHeight: '200px' }} />
           <div className="p-4 flex justify-between items-center">
             <div>
               {!modelsLoaded && <p className="text-sm text-blue-300">⏳ Loading emotion models...</p>}
@@ -160,7 +160,7 @@ const fetchRecommendation = async (emotionType) => {
                 </p>
               )}
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 shrink-0">
               {modelsLoaded && !detecting && (
                 <button onClick={handleStart} className="bg-blue-500 text-white px-5 py-2 rounded-xl text-sm hover:bg-blue-400 transition">
                   Start
@@ -192,7 +192,7 @@ const fetchRecommendation = async (emotionType) => {
 </div>
             <h4 className="text-xl font-semibold text-white mb-2">{currentActivity.title}</h4>
             <p className="text-blue-200 text-sm">{currentActivity.desc}</p>
-            <div className="flex gap-3 mt-5">
+            <div className="flex flex-wrap gap-3 mt-5">
               <button
                 onClick={() => setShowActivity(true)}
                 className="bg-blue-500 text-white px-6 py-2 rounded-xl text-sm hover:bg-blue-400 transition"
