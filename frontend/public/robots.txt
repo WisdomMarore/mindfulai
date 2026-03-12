@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /session
+Disallow: /history
+Disallow: /admin-dashboard
+
+Sitemap: https://mindfulai.app/sitemap.xml
