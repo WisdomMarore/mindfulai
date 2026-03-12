@@ -186,7 +186,7 @@ const fetchRecommendation = async (emotionType) => {
         ? 'bg-purple-400 bg-opacity-20 text-purple-300 border-purple-400 border-opacity-30'
         : 'bg-blue-400 bg-opacity-20 text-blue-300 border-blue-400 border-opacity-30'
     }`}>
-      {recommendationMethod === 'ml' ? '🤖 ML Powered' : `📊 Rule Based · ${sessionsUntilML} sessions until ML`}
+      {recommendationMethod === 'ml' ? 'ML Powered' : ` Rule Based · ${sessionsUntilML} sessions until ML`}
     </span>
   )}
 </div>
