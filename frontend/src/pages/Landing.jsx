@@ -259,9 +259,9 @@ export default function Landing() {
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
           <img src="/mindfulai-logo.svg" alt="MindfulAI" className="h-6" />
           <p className="text-xs text-center" style={{ color: 'rgba(255,255,255,0.3)' }}>
-            © {new Date().getFullYear()} MindfulAI — University of Zimbabwe · Bachelor Honours in Computer Science
+            © {new Date().getFullYear()} MindfulAI — All rights reserved
           </p>
-          <p className="text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>Wisdom Marore · R207521B</p>
+          <p className="text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>Wisdom Marore</p>
         </div>
       </footer>
 

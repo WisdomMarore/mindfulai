@@ -56,11 +56,11 @@ export default function Footer() {
           <div>
             <h4 className="text-gray-300 text-sm font-semibold mb-4 uppercase tracking-wider">Technology</h4>
             <div className="flex flex-col gap-3">
-              <p className="text-gray-400 text-xs">⚡ React 19 + Vite</p>
-              <p className="text-gray-400 text-xs">🤖 face-api.js (Deep Learning)</p>
-              <p className="text-gray-400 text-xs">📊 Scikit-learn (ML)</p>
-              <p className="text-gray-400 text-xs">🔒 Django REST Framework</p>
-              <p className="text-gray-400 text-xs">🗄️ PostgreSQL Database</p>
+              <p className="text-gray-400 text-xs">React 19 + Vite</p>
+              <p className="text-gray-400 text-xs">face-api.js (Deep Learning)</p>
+              <p className="text-gray-400 text-xs">Scikit-learn (ML)</p>
+              <p className="text-gray-400 text-xs">Django REST Framework</p>
+              <p className="text-gray-400 text-xs">PostgreSQL Database</p>
             </div>
           </div>
 
