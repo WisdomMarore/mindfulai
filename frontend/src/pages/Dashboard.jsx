@@ -114,19 +114,19 @@ export default function Dashboard() {
               {wellbeingScore >= 50 ? '↑ Positive trend' : '↓ Could be better'}
             </p>
           </div>
-          <div className="bg-white bg-opacity-10 border border-white border-opacity-10 rounded-2xl p-6">
+          <div className="glass-card rounded-2xl p-6">
             <p className="text-blue-300 text-xs font-medium mb-2">TOTAL SESSIONS</p>
             <p className="text-4xl font-bold text-white">{totalSessions}</p>
             <p className="text-blue-300 text-xs mt-2">All time</p>
           </div>
-          <div className="bg-white bg-opacity-10 border border-white border-opacity-10 rounded-2xl p-6">
+          <div className="glass-card rounded-2xl p-6">
             <p className="text-blue-300 text-xs font-medium mb-2">COMPLETED</p>
             <p className="text-4xl font-bold text-green-400">{completedSessions}</p>
             <p className="text-blue-300 text-xs mt-2">
               {totalSessions > 0 ? `${Math.round((completedSessions / totalSessions) * 100)}% rate` : 'No sessions yet'}
             </p>
           </div>
-          <div className="bg-white bg-opacity-10 border border-white border-opacity-10 rounded-2xl p-6">
+          <div className="glass-card rounded-2xl p-6">
             <p className="text-blue-300 text-xs font-medium mb-2">TOP EMOTION</p>
             <p className="text-3xl font-bold text-white">
               {topEmotion ? `${emotionEmoji[topEmotion.key]}` : '—'}
@@ -140,7 +140,7 @@ export default function Dashboard() {
         {/* Charts */}
         {sessions.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <div className="bg-white bg-opacity-10 border border-white border-opacity-10 rounded-2xl p-6">
+            <div className="glass-card rounded-2xl p-6">
               <h3 className="text-sm font-semibold text-white mb-1">Emotion Frequency</h3>
               <p className="text-xs text-blue-300 mb-5">How often each emotion was detected</p>
              <ResponsiveContainer width="100%" height={180} minWidth={0}>
@@ -160,7 +160,7 @@ export default function Dashboard() {
               </ResponsiveContainer>
             </div>
 
-            <div className="bg-white bg-opacity-10 border border-white border-opacity-10 rounded-2xl p-6">
+            <div className="glass-card rounded-2xl p-6">
               <h3 className="text-sm font-semibold text-white mb-1">Confidence Trend</h3>
               <p className="text-xs text-blue-300 mb-5">Last 7 sessions</p>
               <ResponsiveContainer width="100%" height={180} minWidth={0}>
@@ -180,7 +180,7 @@ export default function Dashboard() {
 
         {/* Recent Sessions + Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="md:col-span-2 bg-white bg-opacity-10 border border-white border-opacity-10 rounded-2xl p-6">
+          <div className="md:col-span-2 glass-card rounded-2xl p-6">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-sm font-semibold text-white">Recent Sessions</h3>
               <button onClick={() => navigate('/history')} className="text-xs text-blue-300 hover:text-blue-200">
@@ -226,7 +226,7 @@ export default function Dashboard() {
                 Begin Now →
               </button>
             </div>
-            <div className="bg-white bg-opacity-10 border border-white border-opacity-10 rounded-2xl p-6 flex flex-col gap-3">
+            <div className="glass-card rounded-2xl p-6 flex flex-col gap-3">
               <h3 className="font-semibold text-white">View History</h3>
               <p className="text-blue-300 text-xs">See all your past sessions and emotions.</p>
               <button

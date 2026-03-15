@@ -294,7 +294,7 @@ export default function ActivityModal({ activity, onClose }) {
             </button>
           ) : (
             <button onClick={handleClose}
-              className="w-full bg-white bg-opacity-10 text-white py-3 rounded-xl font-medium hover:bg-opacity-20 transition border border-white border-opacity-10">
+              className="w-full bg-white bg-opacity-10 text-white py-3 rounded-xl font-medium glass-card-hover transition border border-white border-opacity-10">
               End Early
             </button>
           )}

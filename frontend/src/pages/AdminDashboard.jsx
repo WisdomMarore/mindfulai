@@ -105,19 +105,19 @@ export default function AdminDashboard() {
             <p className="text-4xl font-bold text-white">{stats.total_users}</p>
             <p className="text-blue-300 text-xs mt-2">+{stats.recent_users} this week</p>
           </div>
-          <div className="bg-white bg-opacity-10 border border-white border-opacity-10 rounded-2xl p-6">
+          <div className="glass-card rounded-2xl p-6">
             <p className="text-blue-300 text-xs font-medium mb-2">TOTAL SESSIONS</p>
             <p className="text-4xl font-bold text-white">{stats.total_sessions}</p>
             <p className="text-blue-300 text-xs mt-2">+{stats.recent_sessions} this week</p>
           </div>
-          <div className="bg-white bg-opacity-10 border border-white border-opacity-10 rounded-2xl p-6">
+          <div className="glass-card rounded-2xl p-6">
             <p className="text-blue-300 text-xs font-medium mb-2">COMPLETED</p>
             <p className="text-4xl font-bold text-green-400">{stats.completed_sessions}</p>
             <p className="text-blue-300 text-xs mt-2">
               {stats.total_sessions > 0 ? `${Math.round((stats.completed_sessions / stats.total_sessions) * 100)}% rate` : 'No sessions yet'}
             </p>
           </div>
-          <div className={`border rounded-2xl p-6 ${stats.critical_escalations > 0 ? 'bg-red-400 bg-opacity-20 border-red-400 border-opacity-30' : 'bg-white bg-opacity-10 border-white border-opacity-10'}`}>
+          <div className={`border rounded-2xl p-6 ${stats.critical_escalations > 0 ? 'bg-red-400 bg-opacity-20 border-red-400 border-opacity-30' : 'glass-card'}`}>
             <p className="text-blue-300 text-xs font-medium mb-2">ACTIVE ALERTS</p>
             <p className={`text-4xl font-bold ${stats.critical_escalations > 0 ? 'text-red-400' : 'text-white'}`}>
               {stats.critical_escalations + stats.high_escalations}
@@ -130,7 +130,7 @@ export default function AdminDashboard() {
 
         {/* Charts */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div className="bg-white bg-opacity-10 border border-white border-opacity-10 rounded-2xl p-6">
+          <div className="glass-card rounded-2xl p-6">
             <h3 className="text-sm font-semibold text-white mb-1">Emotion Distribution</h3>
             <p className="text-xs text-blue-300 mb-5">Anonymised — across all users</p>
             <ResponsiveContainer width="100%" height={200}>
@@ -150,7 +150,7 @@ export default function AdminDashboard() {
             </ResponsiveContainer>
           </div>
 
-          <div className="bg-white bg-opacity-10 border border-white border-opacity-10 rounded-2xl p-6">
+          <div className="glass-card rounded-2xl p-6">
             <h3 className="text-sm font-semibold text-white mb-1">Daily Sessions</h3>
             <p className="text-xs text-blue-300 mb-5">Last 7 days</p>
             <ResponsiveContainer width="100%" height={180} minWidth={0}>
@@ -168,7 +168,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Escalation Alerts */}
-        <div className="bg-white bg-opacity-10 border border-white border-opacity-10 rounded-2xl p-6">
+        <div className="glass-card rounded-2xl p-6">
           <div className="flex justify-between items-center mb-6">
             <div>
               <h3 className="text-sm font-semibold text-white">Active Escalation Alerts</h3>
@@ -204,7 +204,7 @@ export default function AdminDashboard() {
                   </div>
                   <button
                     onClick={() => handleAcknowledge(alert.id)}
-                    className="ml-4 bg-white bg-opacity-10 text-white text-xs px-4 py-2 rounded-xl hover:bg-opacity-20 transition border border-white border-opacity-10 shrink-0"
+                    className="ml-4 bg-white bg-opacity-10 text-white text-xs px-4 py-2 rounded-xl glass-card-hover transition border border-white border-opacity-10 shrink-0"
                   >
                     Acknowledge
                   </button>

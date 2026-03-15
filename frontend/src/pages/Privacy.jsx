@@ -67,7 +67,7 @@ export default function Privacy() {
         </div>
 
         {/* What We Store */}
-        <div className="bg-white bg-opacity-10 border border-white border-opacity-10 rounded-2xl p-6 mb-6">
+        <div className="glass-card rounded-2xl p-6 mb-6">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 rounded-xl bg-blue-500 bg-opacity-20 flex items-center justify-center">
               <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
@@ -98,7 +98,7 @@ export default function Privacy() {
         </div>
 
         {/* Download Data */}
-        <div className="bg-white bg-opacity-10 border border-white border-opacity-10 rounded-2xl p-6 mb-6">
+        <div className="glass-card rounded-2xl p-6 mb-6">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-xl bg-green-500 bg-opacity-20 flex items-center justify-center">
               <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
@@ -158,7 +158,7 @@ export default function Privacy() {
                 </button>
                 <button
                   onClick={() => setShowConfirm(false)}
-                  className="bg-white bg-opacity-10 text-white px-6 py-2 rounded-xl text-sm hover:bg-opacity-20 transition"
+                  className="bg-white bg-opacity-10 text-white px-6 py-2 rounded-xl text-sm glass-card-hover transition"
                 >
                   Cancel
                 </button>

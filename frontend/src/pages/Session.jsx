@@ -111,7 +111,7 @@ const fetchRecommendation = async (emotionType) => {
         </div>
 
         {/* Detection Mode Toggle */}
-        <div className="bg-white bg-opacity-10 border border-white border-opacity-10 rounded-2xl p-4 mb-6 flex items-center justify-between">
+        <div className="glass-card rounded-2xl p-4 mb-6 flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-white">Detection Mode</p>
             <p className="text-xs text-blue-300 mt-1">
@@ -121,13 +121,13 @@ const fetchRecommendation = async (emotionType) => {
           <div className="flex gap-2">
             <button
               onClick={() => setContinuousMode(false)}
-              className={`px-4 py-2 rounded-xl text-sm font-medium transition ${!continuousMode ? 'bg-blue-500 text-white' : 'bg-white bg-opacity-10 text-blue-300 hover:bg-opacity-20'}`}
+              className={`px-4 py-2 rounded-xl text-sm font-medium transition ${!continuousMode ? 'bg-blue-500 text-white' : 'bg-white bg-opacity-10 text-blue-300 glass-card-hover'}`}
             >
               Single
             </button>
             <button
               onClick={() => setContinuousMode(true)}
-              className={`px-4 py-2 rounded-xl text-sm font-medium transition ${continuousMode ? 'bg-blue-500 text-white' : 'bg-white bg-opacity-10 text-blue-300 hover:bg-opacity-20'}`}
+              className={`px-4 py-2 rounded-xl text-sm font-medium transition ${continuousMode ? 'bg-blue-500 text-white' : 'bg-white bg-opacity-10 text-blue-300 glass-card-hover'}`}
             >
               Continuous
             </button>
@@ -141,7 +141,7 @@ const fetchRecommendation = async (emotionType) => {
         )}
 
         {/* Camera */}
-        <div className="bg-white bg-opacity-10 border border-white border-opacity-10 rounded-2xl overflow-hidden mb-6">
+        <div className="glass-card rounded-2xl overflow-hidden mb-6">
           <video ref={videoRef} autoPlay muted className="w-full" style={{ maxHeight: '280px', objectFit: 'cover', minHeight: '200px' }} />
           <div className="p-4 flex justify-between items-center">
             <div>
@@ -203,7 +203,7 @@ const fetchRecommendation = async (emotionType) => {
                 <button
                   onClick={handleSave}
                   disabled={saving}
-                  className="bg-white bg-opacity-10 border border-white border-opacity-20 text-white px-6 py-2 rounded-xl text-sm hover:bg-opacity-20 transition disabled:opacity-50"
+                  className="bg-white bg-opacity-10 border border-white border-opacity-20 text-white px-6 py-2 rounded-xl text-sm glass-card-hover transition disabled:opacity-50"
                 >
                   {saving ? 'Saving...' : 'Save Session'}
                 </button>

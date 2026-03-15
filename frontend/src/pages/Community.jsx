@@ -97,14 +97,14 @@ export default function Community() {
         </div>
 
         {/* New Post Box */}
-        <div className="bg-white bg-opacity-10 border border-white border-opacity-10 rounded-2xl p-6 mb-8">
+        <div className="glass-card rounded-2xl p-6 mb-8">
           <p className="text-sm font-medium text-white mb-3">Share how you're feeling</p>
           <textarea
             value={newPost}
             onChange={(e) => setNewPost(e.target.value)}
             placeholder="Write something supportive or share your experience..."
             rows={3}
-            className="w-full bg-white bg-opacity-10 border border-white border-opacity-10 rounded-xl px-4 py-3 text-sm text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none"
+            className="w-full glass-card rounded-xl px-4 py-3 text-sm text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none"
           />
 
           {/* Emotion Tag Selector */}
@@ -139,7 +139,7 @@ export default function Community() {
         {loading ? (
           <p className="text-blue-300 text-center animate-pulse">Loading posts...</p>
         ) : posts.length === 0 ? (
-          <div className="bg-white bg-opacity-10 border border-white border-opacity-10 rounded-2xl p-12 text-center text-blue-300">
+          <div className="glass-card rounded-2xl p-12 text-center text-blue-300">
             <p className="text-4xl mb-3">💬</p>
             <p className="text-sm">No posts yet. Be the first to share!</p>
           </div>
@@ -148,7 +148,7 @@ export default function Community() {
             {posts.map((post) => (
               <div
                 key={post.id}
-                className="bg-white bg-opacity-10 border border-white border-opacity-10 rounded-2xl p-6 hover:bg-opacity-20 transition"
+                className="glass-card rounded-2xl p-6 glass-card-hover transition"
               >
                 {/* Post Header */}
                 <div className="flex justify-between items-start mb-3">
@@ -219,7 +219,7 @@ export default function Community() {
                         placeholder="Write a supportive reply..."
                         value={replyText[post.id] || ''}
                         onChange={(e) => setReplyText({ ...replyText, [post.id]: e.target.value })}
-                        className="flex-1 bg-white bg-opacity-10 border border-white border-opacity-10 rounded-xl px-3 py-2 text-xs text-white placeholder-blue-300 focus:outline-none focus:ring-1 focus:ring-blue-400"
+                        className="flex-1 glass-card rounded-xl px-3 py-2 text-xs text-white placeholder-blue-300 focus:outline-none focus:ring-1 focus:ring-blue-400"
                       />
                       <button
                         onClick={() => handleReply(post.id)}

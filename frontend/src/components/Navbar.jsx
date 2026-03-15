@@ -44,7 +44,7 @@ export default function Navbar() {
           <span className="text-blue-300 text-sm">{user?.username}</span>
           <button
             onClick={handleLogout}
-            className="bg-white bg-opacity-10 text-white text-sm px-4 py-2 rounded-xl hover:bg-opacity-20 transition border border-white border-opacity-10"
+            className="text-white text-sm px-4 py-2 rounded-xl transition border border-white border-opacity-40 hover:bg-white hover:bg-opacity-10"
           >
             Log Out
           </button>
@@ -84,7 +84,7 @@ export default function Navbar() {
             <span className="text-blue-300 text-sm">{user?.username}</span>
             <button
               onClick={handleLogout}
-              className="bg-white bg-opacity-10 text-white text-sm px-4 py-2 rounded-xl hover:bg-opacity-20 transition"
+              className="bg-white bg-opacity-10 text-white text-sm px-4 py-2 rounded-xl glass-card-hover transition"
             >
               Log Out
             </button>
