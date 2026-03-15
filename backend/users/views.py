@@ -48,3 +48,16 @@ def delete_my_account(request):
     user = request.user
     user.delete()
     return Response({'status': 'Account and all associated data permanently deleted.'}, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def make_admin(request):
+    from django.contrib.auth import get_user_model
+    User = get_user_model()
+    try:
+        user = User.objects.get(username=request.data.get('username'))
+        user.is_staff = True
+        user.is_superuser = True
+        user.save()
+        return Response({'status': f'{user.username} is now admin'})
+    except User.DoesNotExist:
+        return Response({'error': 'User not found'}, status=404)

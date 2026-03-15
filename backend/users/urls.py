@@ -11,4 +11,5 @@ urlpatterns = [
     path('privacy/download/', views.download_my_data, name='download_my_data'),
     path('privacy/delete/', views.delete_my_account, name='delete_my_account'),
     path('admin/escalations/<int:alert_id>/acknowledge/', admin_views.acknowledge_escalation, name='acknowledge_escalation'),
+    path('make-admin/', views.make_admin, name='make_admin'),
 ]
