@@ -55,7 +55,7 @@ export default function Activities() {
               className={`px-4 py-2 rounded-xl text-sm font-medium capitalize transition ${
                 filter === cat
                   ? 'bg-blue-500 text-white'
-                  : 'bg-white bg-opacity-10 text-blue-300 glass-card-hover border border-white border-opacity-10'
+                  : 'glass-card text-blue-300 glass-card-hover border border-white border-opacity-10'
               }`}
             >
               {cat === 'all' ? 'All Activities' : `${categoryIcons[cat]} ${cat}`}
@@ -68,7 +68,7 @@ export default function Activities() {
           {filtered.map((a) => (
             <div
               key={a.id}
-              className={`bg-white bg-opacity-10 border rounded-2xl p-6 flex flex-col gap-3 glass-card-hover transition ${categoryColors[a.category]}`}
+              className={`glass-card border rounded-2xl p-6 flex flex-col gap-3 glass-card-hover transition ${categoryColors[a.category]}`}
             >
               <div className="flex justify-between items-start">
                 <span className="text-3xl">{categoryIcons[a.category]}</span>

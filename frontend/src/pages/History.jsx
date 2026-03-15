@@ -69,15 +69,15 @@ export default function History() {
 
         {/* Summary Stats */}
         <div className="grid grid-cols-3 gap-4 mb-8">
-          <div className="bg-white bg-opacity-10 backdrop-blur rounded-2xl p-5 text-center border border-white border-opacity-10">
+          <div className="glass-card backdrop-blur rounded-2xl p-5 text-center border border-white border-opacity-10">
             <p className="text-3xl font-bold text-white">{totalSessions}</p>
             <p className="text-xs text-blue-300 mt-1">Total Sessions</p>
           </div>
-          <div className="bg-white bg-opacity-10 backdrop-blur rounded-2xl p-5 text-center border border-white border-opacity-10">
+          <div className="glass-card backdrop-blur rounded-2xl p-5 text-center border border-white border-opacity-10">
             <p className="text-3xl font-bold text-green-400">{completedSessions}</p>
             <p className="text-xs text-blue-300 mt-1">Completed</p>
           </div>
-          <div className="bg-white bg-opacity-10 backdrop-blur rounded-2xl p-5 text-center border border-white border-opacity-10">
+          <div className="glass-card backdrop-blur rounded-2xl p-5 text-center border border-white border-opacity-10">
             <p className="text-3xl font-bold text-blue-300">{avgConfidence}%</p>
             <p className="text-xs text-blue-300 mt-1">Avg Confidence</p>
           </div>
@@ -92,7 +92,7 @@ export default function History() {
               className={`px-3 py-1.5 rounded-xl text-xs font-medium capitalize transition ${
                 filter === e
                   ? 'bg-blue-500 text-white'
-                  : 'bg-white bg-opacity-10 text-blue-200 glass-card-hover border border-white border-opacity-10'
+                  : 'glass-card text-blue-200 glass-card-hover border border-white border-opacity-10'
               }`}
             >
               {e === 'all' ? 'All' : `${emotionEmoji[e]} ${e}`}
@@ -106,7 +106,7 @@ export default function History() {
             <p className="animate-pulse">Loading sessions...</p>
           </div>
         ) : filtered.length === 0 ? (
-          <div className="bg-white bg-opacity-10 rounded-2xl p-12 text-center text-blue-300 border border-white border-opacity-10">
+          <div className="glass-card rounded-2xl p-12 text-center text-blue-300 border border-white border-opacity-10">
             <p className="text-4xl mb-3">📋</p>
             <p className="text-sm">No sessions found.</p>
           </div>
@@ -115,7 +115,7 @@ export default function History() {
             {filtered.map((s) => (
               <div
                 key={s.id}
-                className="bg-white bg-opacity-10 backdrop-blur rounded-2xl p-5 flex justify-between items-center glass-card-hover transition border border-white border-opacity-10"
+                className="glass-card backdrop-blur rounded-2xl p-5 flex justify-between items-center glass-card-hover transition border border-white border-opacity-10"
               >
                 {/* Left — emotion + activity */}
                 <div className="flex items-center gap-4">
