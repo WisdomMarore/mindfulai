@@ -14,8 +14,9 @@ api.interceptors.request.use((config) => {
 export const authAPI = {
   login: (data) => api.post('/token/', data),
   register: (data) => api.post('/users/register/', data),
+  forgotPassword: (email) => api.post('/users/forgot-password/', { email }),
+  resetPassword: (uid, token, new_password) => api.post('/users/reset-password/', { uid, token, new_password }),
 };
-
 export const sessionAPI = {
   startSession: (data) => api.post('/sessions/', data),
   getHistory: () => api.get('/sessions/history/'),
@@ -49,5 +50,7 @@ export const privacyAPI = {
   downloadData: () => api.get('/users/privacy/download/'),
   deleteAccount: () => api.delete('/users/privacy/delete/'),
 };
+
+
 
 export default api;

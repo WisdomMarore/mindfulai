@@ -12,4 +12,6 @@ urlpatterns = [
     path('privacy/delete/', views.delete_my_account, name='delete_my_account'),
     path('admin/escalations/<int:alert_id>/acknowledge/', admin_views.acknowledge_escalation, name='acknowledge_escalation'),
     path('make-admin/', views.make_admin, name='make_admin'),
+    path('forgot-password/', views.forgot_password, name='forgot_password'),
+    path('reset-password/', views.reset_password, name='reset_password'),
 ]
