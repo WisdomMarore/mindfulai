@@ -11,6 +11,26 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+// Response tracking for system availability metrics
+let totalRequests = 0;
+let successfulRequests = 0;
+let failedRequests = 0;
+
+api.interceptors.response.use(
+  (response) => {
+    totalRequests += 1;
+    successfulRequests += 1;
+    console.log(`%c[MindfulAI] Request Stats | Total: ${totalRequests} | Success: ${successfulRequests} | Failed: ${failedRequests} | Rate: ${((successfulRequests/totalRequests)*100).toFixed(1)}%`, 'color: #8b5cf6;');
+    return response;
+  },
+  (error) => {
+    totalRequests += 1;
+    failedRequests += 1;
+    console.log(`%c[MindfulAI] Request Stats | Total: ${totalRequests} | Success: ${successfulRequests} | Failed: ${failedRequests} | Rate: ${((successfulRequests/totalRequests)*100).toFixed(1)}%`, 'color: #ef4444;');
+    return Promise.reject(error);
+  }
+);
+
 export const authAPI = {
   login: (data) => api.post('/token/', data),
   register: (data) => api.post('/users/register/', data),

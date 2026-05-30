@@ -50,7 +50,16 @@ export default function Session() {
 
 const fetchRecommendation = async (emotionType) => {
   try {
+    const apiLabel = `[MindfulAI] API Recommendation Response Time`;
+    console.time(apiLabel);
+    const apiStart = performance.now();
+
     const res = await sessionAPI.getRecommendation(emotionType);
+
+    const apiEnd = performance.now();
+    const apiLatency = (apiEnd - apiStart).toFixed(2);
+    console.timeEnd(apiLabel);
+    console.log(`%c[MindfulAI] API Response | Emotion: ${emotionType} | Method: ${res.data.method} | Response Time: ${apiLatency}ms`, 'color: #10b981; font-weight: bold;');
     setCurrentActivity({
       title: res.data.activity_title,
       category: res.data.activity_category,
